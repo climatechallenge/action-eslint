@@ -18,8 +18,8 @@ export async function eslint(filesList: string[]) {
 
   for (const file in filesList) {
     fsPromises.access(file, fs.constants.R_OK | fs.constants.W_OK)
-      .then(() => console.log('can access', file))
-      .catch(() => console.error('cannot access', file));
+      .then(() => console.log(`can access ${file}`))
+      .catch(() => console.error(`cannot access ${file}`));
   }
 
   const cli = new CLIEngine({ extensions: [...EXTENSIONS_TO_LINT] });
