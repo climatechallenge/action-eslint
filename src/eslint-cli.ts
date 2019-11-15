@@ -17,7 +17,7 @@ export async function eslint(filesList: string[]) {
   const fsPromises = fs.promises;
   console.log(filesList);
   for (const file in filesList) {
-    fsPromises.access(file, fs.constants.R_OK | fs.constants.W_OK)
+    fsPromises.access(`./${file}`, fs.constants.R_OK | fs.constants.W_OK)
       .then(() => console.log(`can access ${file}`))
       .catch(() => console.error(`cannot access ${file}`));
   }
