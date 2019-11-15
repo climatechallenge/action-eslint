@@ -13,22 +13,20 @@ export async function eslint(filesList: string[]) {
   const { CLIEngine } = (await import(
     path.join(process.cwd(), 'node_modules/eslint')
   )) as typeof import('eslint');
-  
-  if(fs.existsSync('src/components/Share123.vue')) {
-    console.log("The file exists.");
-  } else {
-    console.log('The file does not exist.');
-  }
+
+  const filteredFilesList = filesList.filter((value) => {
+    return !fs.existsSync(value);
+  });  
 
   const cli = new CLIEngine({ extensions: [...EXTENSIONS_TO_LINT] });
-  const report = cli.executeOnFiles(filesList);
+  const report = cli.executeOnFiles(filteredFilesList);
   // fixableErrorCount, fixableWarningCount are available too
   const { results, errorCount, warningCount } = report;
 
   const annotations: import('@octokit/rest').ChecksUpdateParamsOutputAnnotations[] = [];
   for (const result of results) {
     const { filePath, messages } = result;
-    const filename = filesList.find(file => filePath.endsWith(file));
+    const filename = filteredFilesList.find(file => filePath.endsWith(file));
     if (!filename) continue;
     for (const msg of messages) {
       const {
@@ -58,8 +56,8 @@ export async function eslint(filesList: string[]) {
       ? 'failure'
       : 'success') as import('@octokit/rest').ChecksCreateParams['conclusion'],
     output: {
-      title: `${errorCount} error(s), ${warningCount} warning(s) found in ${filesList.length} file(s)`,
-      summary: `${errorCount} error(s), ${warningCount} warning(s) found in ${filesList.length} file(s)`,
+      title: `${errorCount} error(s), ${warningCount} warning(s) found in ${filteredFilesList.length} file(s)`,
+      summary: `${errorCount} error(s), ${warningCount} warning(s) found in ${filteredFilesList.length} file(s)`,
       annotations
     }
   };
