@@ -14,7 +14,7 @@ export async function eslint(filesList: string[]) {
     path.join(process.cwd(), 'node_modules/eslint')
   )) as typeof import('eslint');
   
-  if(fs.existsSync('src/components/Share.vue')) {
+  if(fs.existsSync('src/components/Share123.vue')) {
     console.log("The file exists.");
   } else {
     console.log('The file does not exist.');
