@@ -1,4 +1,5 @@
 import * as path from 'path';
+import fs from 'fs';
 
 import { EXTENSIONS_TO_LINT } from './constants';
 
@@ -12,6 +13,14 @@ export async function eslint(filesList: string[]) {
   const { CLIEngine } = (await import(
     path.join(process.cwd(), 'node_modules/eslint')
   )) as typeof import('eslint');
+
+  const fsPromises = fs.promises;
+
+  for (const file in filesList) {
+    fsPromises.access(file, fs.constants.R_OK | fs.constants.W_OK)
+      .then(() => console.log('can access', file))
+      .catch(() => console.error('cannot access', file));
+  }
 
   const cli = new CLIEngine({ extensions: [...EXTENSIONS_TO_LINT] });
   const report = cli.executeOnFiles(filesList);
