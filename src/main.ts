@@ -23,7 +23,8 @@ async function run() {
           pullRequest(number: $prNumber) {
             files(first: 100) {
               nodes {
-                path
+                path,
+                status
               }
             }
             commits(last: 1) {
@@ -46,8 +47,8 @@ async function run() {
   const currentSha = prInfo.repository.pullRequest.commits.nodes[0].commit.oid;
   // console.log('Commit from GraphQL:', currentSha);
   const files = prInfo.repository.pullRequest.files.nodes;
-  const logging = prInfo.repository.pullRequest.files;
-  console.log(logging);
+  console.log(files);
+  
   const filesToLint = files
     .filter(f => EXTENSIONS_TO_LINT.has(path.extname(f.path)))
     .map(f => f.path);
