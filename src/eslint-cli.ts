@@ -13,11 +13,16 @@ export async function eslint(filesList: string[]) {
   const { CLIEngine } = (await import(
     path.join(process.cwd(), 'node_modules/eslint')
   )) as typeof import('eslint');
+  
+  console.log(filesList);
 
   const filteredFilesList = filesList.filter((value) => {
     console.log(fs.existsSync(value), value);
     return !fs.existsSync(value);
   });  
+
+  console.log(filteredFilesList);
+
 
   const cli = new CLIEngine({ extensions: [...EXTENSIONS_TO_LINT] });
   const report = cli.executeOnFiles(filteredFilesList);
