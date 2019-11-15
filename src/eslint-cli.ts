@@ -15,6 +15,7 @@ export async function eslint(filesList: string[]) {
   )) as typeof import('eslint');
 
   const filteredFilesList = filesList.filter((value) => {
+    console.log(fs.existsSync(value), value);
     return !fs.existsSync(value);
   });  
 
