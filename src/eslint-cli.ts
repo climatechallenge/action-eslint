@@ -1,4 +1,5 @@
 import * as path from 'path';
+const fs = require('fs');
 
 import { EXTENSIONS_TO_LINT } from './constants';
 
@@ -12,6 +13,12 @@ export async function eslint(filesList: string[]) {
   const { CLIEngine } = (await import(
     path.join(process.cwd(), 'node_modules/eslint')
   )) as typeof import('eslint');
+  
+  if(fs.existsSync('src/components/Share.vue')) {
+    console.log("The file exists.");
+  } else {
+    console.log('The file does not exist.');
+  }
 
   const cli = new CLIEngine({ extensions: [...EXTENSIONS_TO_LINT] });
   const report = cli.executeOnFiles(filesList);
