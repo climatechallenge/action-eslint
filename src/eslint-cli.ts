@@ -33,15 +33,15 @@ export async function eslint(filesList: string[]) {
         ruleId,
         message,
         endLine,
-        column,
-        endColumn
+        // column,
+        // endColumn
       } = msg;
       annotations.push({
         path: filename,
         start_line: line || 0,
         end_line: endLine || line || 0,
-        start_column: column || 0,
-        end_column: endColumn || column || 0,
+        // start_column: column || 0,
+        // end_column: endColumn || column || 0,
         annotation_level: ESLINT_TO_GITHUB_LEVELS[severity],
         title: ruleId || 'ESLint',
         message
