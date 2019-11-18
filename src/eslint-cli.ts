@@ -1,5 +1,5 @@
 import * as path from 'path';
-const fs = require('fs');
+// const fs = require('fs');
 
 import { EXTENSIONS_TO_LINT } from './constants';
 
@@ -14,7 +14,7 @@ export async function eslint(filesList: string[]) {
     path.join(process.cwd(), 'node_modules/eslint')
   )) as typeof import('eslint');
   
-  const filteredFilesList = filesList.filter((value) => fs.existsSync(value));  
+  // const filteredFilesList = filesList.filter((value) => fs.existsSync(value));  
 
   const cli = new CLIEngine({ extensions: [...EXTENSIONS_TO_LINT] });
   const report = cli.executeOnFiles(filesList);
